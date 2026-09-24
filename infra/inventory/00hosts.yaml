@@ -154,3 +154,22 @@ all:
                 oac-prod-workload0-gpu-sxm-1:
                   node_name: MOC-R8PAC23U26
                   bmc_addr: 10.2.18.126
+    other_clusters:
+      children:
+        jetty:
+          vars:
+            network_name: jetty
+            bmc_type: idrac
+            # boot_image_url: "http://10.2.0.82/boot/agent.x86_64.iso"
+            boot_image_url: "http://10.2.0.82/boot/discovery.iso"
+            cluster: jetty
+          hosts:
+            jetty-0:
+              node_name: MOC-R4PAC08U35-S3D
+              bmc_addr: 10.2.14.188
+            jetty-1:
+              node_name: MOC-R4PAC08U31-S1A
+              bmc_addr: 10.2.14.161
+            jetty-2:
+              node_name: MOC-R4PAC08U31-S1B
+              bmc_addr: 10.2.14.162
