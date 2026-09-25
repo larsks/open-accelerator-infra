@@ -1,5 +1,6 @@
 resource "openstack_networking_network_v2" "jetty-net" {
   provider       = openstack.admin
+  tenant_id      = data.openstack_identity_project_v3.open-accelerator.id
   name           = "jetty-net"
   admin_state_up = true
   shared         = true
@@ -17,6 +18,7 @@ data "openstack_networking_network_v2" "external_network" {
 
 resource "openstack_networking_subnet_v2" "jetty-subnet" {
   provider   = openstack.admin
+  tenant_id  = data.openstack_identity_project_v3.open-accelerator.id
   name       = openstack_networking_network_v2.jetty-net.name
   network_id = openstack_networking_network_v2.jetty-net.id
   cidr       = "10.20.16.0/23"
