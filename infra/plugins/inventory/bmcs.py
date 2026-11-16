@@ -3,13 +3,12 @@ from ansible.plugins.inventory import BaseInventoryPlugin
 from ansible.utils.vars import combine_vars
 
 DOCUMENTATION = """
-    name: idracs
+    name: bmcs
     plugin_type: inventory
-    short_description: Creates iDRAC hosts from bmc_addr variables
+    short_description: Creates per-bmc groups from bmc_type and bmc_addr variables
     description:
-        - Scans existing inventory for hosts with bmc_type == 'idrac'
-          and creates corresponding iDRAC management hosts using their
-          bmc_addr values.
+        - Scans existing inventory and creates a host group per bmc_type value,
+          using bmc_addr values as host entries.
 """
 
 
