@@ -1,8 +1,10 @@
 - name: Set system hostname
+  tags: [system]
   ansible.builtin.hostname:
     name: "{{ inventory_hostname }}"
 
 - name: Populate /etc/hosts
+  tags: [system]
   ansible.builtin.blockinfile:
     path: /etc/hosts
     block: |
@@ -11,6 +13,7 @@
       {% endfor %}
 
 - name: Configure sshd
+  tags: [auth]
   ansible.builtin.copy:
     src: sshd_config
     dest: /etc/ssh/sshd_config.d/00-local-policy.conf
@@ -20,12 +23,14 @@
   notify: restart-sshd
 
 - name: Configure groups
+  tags: [auth]
   ansible.builtin.group:
     state: present
     name: "{{ item.name }}"
   loop: "{{ ark_cohort_groups }}"
 
 - name: Configure sudo access for ark-users
+  tags: [auth]
   ansible.builtin.copy:
     src: sudoers
     dest: /etc/sudoers.d/ark-users
@@ -34,6 +39,7 @@
     mode: '0440'
 
 - name: Add users
+  tags: [auth]
   ansible.builtin.user:
     name: "{{ item.username }}"
     comment: "{{ item.fullname }}"
@@ -43,15 +49,22 @@
   loop: "{{ ark_cohort_users }}"
 
 - name: Add user ssh keys
+  tags: [auth]
   ansible.builtin.authorized_key:
     user: "{{ item.username }}"
     key: "{{ item.sshkey }}"
   loop: "{{ ark_cohort_users }}"
 
 - name: Install epel-release repository
+  tags: [packages]
   ansible.builtin.include_role:
     name: epel-release
+    apply:
+      tags: [packages]
 
 - name: Install nvidia driver
+  tags: [nvidia]
   ansible.builtin.include_role:
     name: nvidia-driver
+    apply:
+      tags: [nvidia]
