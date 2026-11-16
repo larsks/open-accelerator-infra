@@ -55,3 +55,10 @@
 - name: Install nvidia driver
   ansible.builtin.include_role:
     name: nvidia-driver
+
+- name: Enable NFS-over-TLS
+  tags: [storage]
+  ansible.builtin.include_role:
+    name: nfs-over-tls
+    apply:
+      tags: [storage]

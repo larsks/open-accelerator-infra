@@ -1,0 +1,10 @@
+- name: Install packages for nfs-over-tls
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: installed
+  loop: "{{ nfs_over_tls_packages }}"
+
+- name: Activate tlshd service
+  ansible.builtin.service:
+    name: tlshd
+    state: started
